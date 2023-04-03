@@ -13,7 +13,7 @@ engine = create_engine(db_Connection_string,
 
 #recuperation des informations dans la base de données
 
-def user():
+def fetch_user():
     with engine.connect() as conn:
         result = conn.execute(text("select * from Boutique"))
 
@@ -23,3 +23,36 @@ def user():
             result_dicts.append(row._asdict())
         
         return result_dicts
+    
+def fetch_live():
+    with engine.connect() as conn:
+        result = conn.execute(text("select * from Boutique"))
+
+        result_dicts = []
+
+        for row in result.all():
+            result_dicts.append(row._asdict())
+        
+        return result_dicts
+    
+def db_append_live(user_data):
+    with engine.connect() as conn:
+        nomLive = user_data['nomLive']
+        urlRtmp = user_data['urlRtmp']
+        proprietaire = user_data['proprietaire']
+
+        query = text(f'INSERT INTO Live (urlRtmp, LiveEventName, proprietaire) VALUES ("{urlRtmp}", "{nomLive}", "{proprietaire}")')
+
+        conn.execute(query)
+        return
+
+def db_append_boutique(user_data):
+    with engine.connect() as conn:
+        name = user_data['name']
+        shop = user_data['shop']
+        address = user_data['email']
+        local = user_data['local']
+        query = text(f'INSERT INTO Boutique (nomProprietaire, nomBoutique, emailProp, localisation) VALUES ( "{name}", "{shop}", "{address}", "{local}")')
+
+        conn.execute(query)
+        return
