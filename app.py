@@ -15,7 +15,7 @@ from azure.mgmt.media.models import (
     LiveEventInputProtocol,
     StreamOptionsFlag
 )
-from database import db_append_live, db_append_boutique, fetch_live, fetch_user
+from database import db_append_live, db_append_boutique, fetch_live, fetch_user, verify
 app = Flask(__name__)
 
 # Tenant ID for your Azure Subscription
@@ -36,7 +36,7 @@ account_name ="digipluscamera"
 @app.route("/liveStart/<live_name>")
 def main(live_name):
 
-    
+    live_event_name = verify(live_name)
 
     client = AzureMediaServices(
         credential=ClientSecretCredential(TENANT_ID, CLIENT_ID, CLIENT_SECRET),
@@ -46,7 +46,7 @@ def main(live_name):
     response = client.live_events.begin_start(
         resource_group_name=resource_group,
         account_name=account_name,
-        live_event_name=live_event_name,
+        live_event_name=live_event_name, 
     ).result()
     output = str(response)
 
@@ -70,9 +70,11 @@ def main(live_name):
     output1 = str(response1)
     return render_template("script.html")
     
-@app.route("/liveStop/")
-def stop():
+@app.route("/liveStop/<live_name>")
+def stop(live_name):
     
+    live_event_name = verify(live_name)
+
     client = AzureMediaServices(
         credential=ClientSecretCredential(TENANT_ID, CLIENT_ID, CLIENT_SECRET),
         subscription_id="39c41e42-c205-40c1-b1bc-ef2eac9429b3",

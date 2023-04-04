@@ -34,7 +34,8 @@ def fetch_live():
             result_dicts.append(row._asdict())
         
         return result_dicts
-    
+
+#ajout des données des lives crées dans la base de données
 def db_append_live(user_data):
     with engine.connect() as conn:
         nomLive = user_data['nomLive']
@@ -46,6 +47,7 @@ def db_append_live(user_data):
         conn.execute(query)
         return
 
+#ajout des données des utilisateurs dans la base de données
 def db_append_boutique(user_data):
     with engine.connect() as conn:
         name = user_data['name']
@@ -56,3 +58,13 @@ def db_append_boutique(user_data):
 
         conn.execute(query)
         return
+    
+
+# verification des informations reçues dans l'URL
+def verify(live_name):
+    lives = fetch_live()
+    for live in lives :
+        if live_name == live['proprietaire']:
+            live_event_name = live['liveEventName']
+    
+    return live_event_name
