@@ -19,16 +19,16 @@ from database import db_append_live, db_append_boutique, fetch_live, fetch_user,
 app = Flask(__name__)
 
 # Tenant ID for your Azure Subscription
-TENANT_ID = "31091900-0d4d-423b-b04e-fe4201c763bd"
+TENANT_ID = <azure_tenant_id>
 
 # Your Application Client ID of your Service Principal
-CLIENT_ID = "49252a39-ed92-45a1-9427-4b456fa3a4d7"
+CLIENT_ID = <azure_client_id>
 
 # Your Service Principal secret key
-CLIENT_SECRET = "MLm8Q~51.W7AuZOzeZNDHqIsl-whM32gGc1X7aGj"
+CLIENT_SECRET = <azure_client_secrert>
 
 # Get the environment variables
-subscription_id = "39c41e42-c205-40c1-b1bc-ef2eac9429b3"
+subscription_id = <azure_subscription_id>
 resource_group ="Digiplus"
 account_name ="digipluscamera"
 
@@ -40,7 +40,7 @@ def main(live_name):
 
     client = AzureMediaServices(
         credential=ClientSecretCredential(TENANT_ID, CLIENT_ID, CLIENT_SECRET),
-        subscription_id="39c41e42-c205-40c1-b1bc-ef2eac9429b3",
+        subscription_id=subscription_id ,
     )
 
     response = client.live_events.begin_start(
@@ -77,7 +77,7 @@ def stop(live_name):
 
     client = AzureMediaServices(
         credential=ClientSecretCredential(TENANT_ID, CLIENT_ID, CLIENT_SECRET),
-        subscription_id="39c41e42-c205-40c1-b1bc-ef2eac9429b3",
+        subscription_id=subscription_id ,
     )
 
     response = client.live_events.begin_stop(
@@ -104,7 +104,7 @@ def liveCreate():
         uniqueness = random.randint(0,9999)
         live_event_name = f'{nameProp}-{uniqueness}'
 
-        accessToken='9eb1f703b149417c8448771867f48501'
+        accessToken=<access_token>
 
         allow_all_input_range=IPRange(name="AllowAll", address="0.0.0.0", subnet_prefix_length=0)
 
@@ -131,7 +131,7 @@ def liveCreate():
     )
         client = AzureMediaServices(
         credential=ClientSecretCredential(TENANT_ID, CLIENT_ID, CLIENT_SECRET),
-        subscription_id="39c41e42-c205-40c1-b1bc-ef2eac9429b3",
+        subscription_id=subscription_id ,
         )
 
         # creation du live
